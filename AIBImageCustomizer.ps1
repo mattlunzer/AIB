@@ -1,9 +1,6 @@
 
-mkdir c:\buildArtifacts
-echo MJL-Azure-Image-Builder-Was-Here  > c:\buildArtifacts\azureImageBuilder.txt
-
 #Install FSLogix
-FSLogixAppsSetup.exe /install /quiet
+#FSLogixAppsSetup.exe /install /quiet
 
 #Disable WU
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v NoAutoUpdate /t REG_DWORD /d 1 /f

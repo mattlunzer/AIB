@@ -31,7 +31,7 @@
             "identity": {
                 "type": "UserAssigned",
                         "userAssignedIdentities": {
-                        "/subscriptions/c31a93aa-4602-46b4-844d-0ef872ff7074/resourcegroups/aibwinsig/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aibIdentity1589042999": {}
+                        "<imgBuilderId>": {}
                             
                     }
                     },
@@ -47,24 +47,19 @@
         
             "source": {
                 "type": "PlatformImage",
-                    "publisher": "MicrosoftWindowsServer",
-                    "offer": "WindowsServer",
-                    "sku": "2019-Datacenter",
+                    "publisher": "MicrosoftWindowsDesktop",
+                    "offer": "Windows-10",
+                    "sku": "windows-10-1909-vhd-client-office-prod-stage",
                     "version": "latest"
                 
             },
             "customize": [
-
                     {
                         "type": "PowerShell",
                         "name": "CreateBuildPath",
-                        "scriptUri": "https://raw.githubusercontent.com/danielsollondon/azvmimagebuilder/master/testPsScript.ps1"
+                        "scriptUri": "https://raw.githubusercontent.com/mattlunzer/AIB/master/AIBImageCustomizer.ps1"
                     },
-                    {
-                        "type": "WindowsRestart",
-                        "restartCheckCommand": "echo Azure-Image-Builder-Restarted-the-VM  > c:\\buildArtifacts\\azureImageBuilderRestart.txt",
-                        "restartTimeout": "5m"
-                    },
+                    
                     {
                         "type": "File",
                         "name": "downloadBuildArtifacts",
@@ -77,7 +72,7 @@
                         "name": "settingUpMgmtAgtPath",
                         "inline": [
                             "mkdir c:\\buildActions",
-                            "echo Azure-Image-Builder-Was-Here  > c:\\buildActions\\buildActionsOutput.txt"
+                            "echo MJL-Azure-Image-Builder-Was-Here  > c:\\buildActions\\buildActionsOutput.txt"
                         ]
                     },
                         
@@ -96,15 +91,15 @@
             [
                 {   
                     "type": "SharedImage",
-                    "galleryImageId": "/subscriptions/c31a93aa-4602-46b4-844d-0ef872ff7074/resourceGroups/aibwinsig/providers/Microsoft.Compute/galleries/myIBSIG/images/winSvrimage",
-                    "runOutputName": "winclientR01",
+                    "galleryImageId": "/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalName>/images/<imageDefName>",
+                    "runOutputName": "<runOutputName>",
                     "artifactTags": {
                         "source": "azureVmImageBuilder",
-                        "baseosimg": "windows2019"
+                        "baseosimg": "windows10"
                     },
                     "replicationRegions": [
-                      "westus",
-                      "eastus"
+                      "<region1>",
+                      "<region2>"
                     ]
                 }
             ]
@@ -114,10 +109,3 @@
     
     ]
 }    
-
-
-
-
-
-
-
