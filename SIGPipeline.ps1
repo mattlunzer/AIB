@@ -1,4 +1,3 @@
-
 #1 #### Create Variables ###
 
 # Get existing context
@@ -14,7 +13,7 @@ $imageResourceGroup="aibwinsig"
 $location="westus"
 
 # Image distribution metadata reference name
-$runOutputName="aibCustWinManImg02ro"
+$runOutputName="aibCustWinManImg05ro"
 
 # Image template name
 $imageTemplate="SIGImageTemplateWin10"
@@ -22,7 +21,7 @@ $imageTemplateName=$imageTemplate + (get-date -Format yymmddhhmmss)
 
 # Distribution properties object name (runOutput).
 # This gives you the properties of the managed image on completion.
-$runOutputName="win10msclientR01"
+$runOutputName="win10msclientR05"
 
 # Create a resource group for Image Template and Shared Image Gallery
 #New-AzResourceGroup `
@@ -75,7 +74,7 @@ $identityNamePrincipalId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageR
 $sigGalleryName= "myIBSIG"
 
 # Image definition name
-$imageDefName ="win10msimage"
+$imageDefName ="win10msimage2"
 
 # additional replication region
 $replRegion2="eastus"
