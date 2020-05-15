@@ -49,7 +49,7 @@
                 "type": "PlatformImage",
                     "publisher": "MicrosoftWindowsDesktop",
                     "offer": "Windows-10",
-                    "sku": "windows-10-1909-vhd-client-office-prod-stage",
+                    "sku": "19h2-ent",
                     "version": "latest"
                 
             },
@@ -66,16 +66,7 @@
                         "sourceUri": "https://raw.githubusercontent.com/danielsollondon/azvmimagebuilder/master/quickquickstarts/exampleArtifacts/buildArtifacts/index.html",
                         "destination":"c:\\buildArtifacts\\index.html"
                     },
-        
-                    {
-                        "type": "PowerShell",
-                        "name": "settingUpMgmtAgtPath",
-                        "inline": [
-                            "mkdir c:\\buildActions",
-                            "echo MJL-Azure-Image-Builder-Was-Here  > c:\\buildActions\\buildActionsOutput.txt"
-                        ]
-                    },
-                        
+                               
                     {
                         "type": "WindowsUpdate",
                         "searchCriteria": "IsInstalled=0",

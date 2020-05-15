@@ -1,5 +1,5 @@
 
-#### Create Variables ###
+#1 #### Create Variables ###
 
 # Get existing context
 $currentAzContext = Get-AzContext
@@ -17,7 +17,8 @@ $location="westus"
 $runOutputName="aibCustWinManImg02ro"
 
 # Image template name
-$imageTemplateName="helloImageTemplateWin02ps"
+$imageTemplate="SIGImageTemplateWin10"
+$imageTemplateName=$imageTemplate + (get-date -Format yymmddhhmmss)
 
 # Distribution properties object name (runOutput).
 # This gives you the properties of the managed image on completion.
@@ -28,7 +29,7 @@ $runOutputName="win10msclientR01"
 #   -Name $imageResourceGroup `
 #   -Location $location
 
-### Create a user-assigned identity and set permissions on the resource group ###
+#2 ### Create a user-assigned identity and set permissions on the resource group ###
 
 # setup role def names, these need to be unique
 #$timeInt=$(get-date -UFormat "%s")
@@ -36,7 +37,7 @@ $runOutputName="win10msclientR01"
 #$idenityName="aibIdentity"+$timeInt
 
 #NewVar
-$idenityName="aibIdentity1589042999"
+$identityName="aibIdentity1589042999"
 
 ## Add AZ PS module to support AzUserAssignedIdentity
 Install-Module -Name Az.ManagedServiceIdentity
@@ -44,8 +45,8 @@ Install-Module -Name Az.ManagedServiceIdentity
 # create identity
 #New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
 
-$idenityNameResourceId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName).Id
-$idenityNamePrincipalId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName).PrincipalId
+$identityNameResourceId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $identityName).Id
+$identityNamePrincipalId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $identityName).PrincipalId
 
 ### Assign permissions for identity to distribute images ###
 
@@ -85,6 +86,8 @@ $replRegion2="eastus"
 #   -ResourceGroupName $imageResourceGroup  `
 #   -Location $location
 
+#Get-AzVMImageOffer -Location eastus -PublisherName MicrosoftWindowsDesktop | Select Offer
+
 # Create the image definition
 New-AzGalleryImageDefinition `
    -GalleryName $sigGalleryName `
@@ -102,7 +105,7 @@ New-AzGalleryImageDefinition `
 $templateFilePath = "armTemplateWin10MSSIG.json"
 
 Invoke-WebRequest `
-   -Uri "https://raw.githubusercontent.com/mattlunzer/AIB/blob/master/installFiles/armTemplateWin10MSSIG.json" `
+   -Uri "https://raw.githubusercontent.com/mattlunzer/AIB/master/armTemplateWin10MSSIG.json" `
    -OutFile $templateFilePath `
    -UseBasicParsing
 
@@ -120,7 +123,7 @@ Invoke-WebRequest `
    -replace '<region1>',$location | Set-Content -Path $templateFilePath
 (Get-Content -path $templateFilePath -Raw ) `
    -replace '<region2>',$replRegion2 | Set-Content -Path $templateFilePath
-((Get-Content -path $templateFilePath -Raw) -replace '<imgBuilderId>',$idenityNameResourceId) | Set-Content -Path $templateFilePath
+((Get-Content -path $templateFilePath -Raw) -replace '<imgBuilderId>',$identityNameResourceId) | Set-Content -Path $templateFilePath
 
 ### Create the image version ###
 
@@ -131,7 +134,7 @@ New-AzResourceGroupDeployment `
    -imageTemplateName $imageTemplateName `
    -svclocation $location
 
-   Invoke-AzResourceAction `
+Invoke-AzResourceAction `
    -ResourceName $imageTemplateName `
    -ResourceGroupName $imageResourceGroup `
    -ResourceType Microsoft.VirtualMachineImages/imageTemplates `
@@ -139,4 +142,7 @@ New-AzResourceGroupDeployment `
    -Action Run
 
 
-
+#"publisher": "microsoftwindowsdesktop",
+#"offer": "office-365",
+#"sku": "19h2-evd-o365pp",
+#"version": "latest"
