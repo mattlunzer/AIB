@@ -69,7 +69,7 @@ $identityNamePrincipalId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageR
 ### NOTE: If you see this error: 'New-AzRoleDefinition: Role definition limit exceeded. No more role definitions can be created.' See this article to resolve:
 #https://docs.microsoft.com/azure/role-based-access-control/troubleshooting
 
-### Create the Shared Image Gallery ###
+#3. ### Create the Shared Image Gallery ###
 
 # Image gallery name
 $sigGalleryName= "myIBSIG"
@@ -100,7 +100,7 @@ New-AzGalleryImageDefinition `
    -Offer 'WindowsClient' `
    -Sku 'WinSrv10MS'
 
-### Download and configure the template ###
+#4 ### Download and configure the template ###
 
 $templateFilePath = "armTemplateWin10MSSIG.json"
 
