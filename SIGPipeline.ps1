@@ -74,7 +74,7 @@ $identityNamePrincipalId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageR
 $sigGalleryName= "myIBSIG"
 
 # Image definition name
-$imageDefName ="win10msimage2"
+$imageDefName ="win10msimage"
 
 # additional replication region
 $replRegion2="eastus"
