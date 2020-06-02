@@ -21,7 +21,7 @@ $imageTemplateName=$imageTemplate + (get-date -Format yymmddhhmmss)
 
 # Distribution properties object name (runOutput).
 # This gives you the properties of the managed image on completion.
-$runOutputName="win10msclientR05"
+$runOutputName="win10msclientR06"
 
 # Create a resource group for Image Template and Shared Image Gallery
 #New-AzResourceGroup `
@@ -74,7 +74,7 @@ $identityNamePrincipalId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageR
 $sigGalleryName= "myIBSIG"
 
 # Image definition name
-$imageDefName ="win10msimage"
+$imageDefName ="win10image19h2entv3"
 
 # additional replication region
 $replRegion2="eastus"
@@ -97,14 +97,19 @@ New-AzGalleryImageDefinition `
    -OsType Windows `
    -Publisher 'AzureSolutions' `
    -Offer 'WindowsClient' `
-   -Sku 'WinSrv10MS'
+   -Sku 'Win10Ent'
 
 #4 ### Download and configure the template ###
 
 $templateFilePath = "armTemplateWin10MSSIG.json"
 
+#Invoke-WebRequest `
+#   -Uri "https://raw.githubusercontent.com/mattlunzer/AIB/master/armTemplateWin10MSSIG.json" `
+#   -OutFile $templateFilePath `
+#   -UseBasicParsing
+
 Invoke-WebRequest `
-   -Uri "https://raw.githubusercontent.com/mattlunzer/AIB/master/armTemplateWin10MSSIG.json" `
+   -Uri "https://mjlstorageacct.blob.core.windows.net/aib/AzureImageBuilder_Win10PD_ARMTemplate_v3.json" `
    -OutFile $templateFilePath `
    -UseBasicParsing
 
@@ -139,9 +144,3 @@ Invoke-AzResourceAction `
    -ResourceType Microsoft.VirtualMachineImages/imageTemplates `
    -ApiVersion "2019-05-01-preview" `
    -Action Run
-
-
-#"publisher": "microsoftwindowsdesktop",
-#"offer": "office-365",
-#"sku": "19h2-evd-o365pp",
-#"version": "latest"
