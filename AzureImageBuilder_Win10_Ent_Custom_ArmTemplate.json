@@ -87,16 +87,20 @@
                     "updateLimit": 20
                 }
         ],
-        "distribute": 
+            "distribute": 
             [
-                {   "type":"ManagedImage",
-                    "imageId": "/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/images/<imageName>",
-                    "location": "<region>",
+                {   
+                    "type": "SharedImage",
+                    "galleryImageId": "/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalName>/images/<imageDefName>",
                     "runOutputName": "<runOutputName>",
                     "artifactTags": {
-                        "source": "azVmImageBuilder",
-                        "baseosimg": "Windows10"
-                    }
+                        "source": "azureVmImageBuilder",
+                        "baseosimg": "windows10ent"
+                    },
+                    "replicationRegions": [
+                      "<region1>",
+                      "<region2>"
+                    ]
                 }
             ]
         }
